@@ -64,6 +64,7 @@ resource "null_resource" "delete_instance" {
   provisioner "local-exec" {
     command = "aws ec2 terminate-instances --instance-ids ${module.catalogue_instance.id}"
   }
+  depends_on = [ aws_ami_from_instance.catalogue_ami ]
 }
 
 resource "aws_lb_target_group" "catalogue" {
