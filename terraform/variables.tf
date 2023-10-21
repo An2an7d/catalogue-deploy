@@ -9,8 +9,16 @@ variable "env" {
 variable "common_tags" {
     default = {
       Project = "Roboshop"
-      Component ="catalogue-dev"
+      Component ="catalogue"
       Environment = "DEV"
       terraform = "true"
     }
+}
+
+variable "domain_name" {
+  default = "nowheretobefound.online"
+}
+
+variable "app_version" {
+  default = "100.100.100"
 }
