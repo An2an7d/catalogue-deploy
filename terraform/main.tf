@@ -129,6 +129,9 @@ resource "aws_autoscaling_group" "catalogue" {
   timeouts {
     delete = "15m"
   }
+    lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_autoscaling_policy" "catalogue" {
