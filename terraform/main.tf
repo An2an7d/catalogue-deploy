@@ -4,6 +4,7 @@ module "catalogue_instance" {
   instance_type = "t2.micro"
   vpc_security_group_ids = [data.aws_ssm_parameter.catalogue_sg_id.value]
   subnet_id = local.private_subnet_id
+  iam_instance_profile = "catalogue_profile"
 #   user_data = filebase64("${path.module}/mongodb.sh")
   tags = merge(
     {

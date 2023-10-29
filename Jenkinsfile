@@ -5,6 +5,8 @@ pipeline{
     }
     parameters{
         string(name: 'version', defaultValue: '1.0.1', description: 'which version to deploy')
+        string(name: 'environment', defaultValue: 'dev', description: 'which environment to deploy')
+
     }
     stages{
         stage('Deploy'){
@@ -15,17 +17,17 @@ pipeline{
         }
         stage('Init'){
             steps{
-                sh '''
+                sh """
                 cd terraform
-                terraform init -reconfigure
-                '''
+                terraform init -backend-config=${params.environment}/backend.tf -reconfigure
+                """
             }
         }
         stage('Plan'){
             steps{
                  sh """
                 cd terraform
-                terraform plan -var="app_version=${params.version}"
+                terraform plan -var-file=${params.environment}/${params.environment}.tfvars -var="app_version=${params.version}"
                 """
             }
         }
@@ -47,7 +49,7 @@ pipeline{
             steps{
                  sh """
                 cd terraform
-                terraform apply -var="app_version=${params.version}" -auto-approve
+                terraform apply -var-file=${params.environment}/${params.environment}.tfvars -var="app_version=${params.version}" -auto-approve
                 """
             }
         }
